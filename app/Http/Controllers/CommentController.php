@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Gradebook;
 use Illuminate\Http\Request;
+use Validator;
+use JWTAuth;
 
 class CommentController extends Controller
 {
@@ -17,33 +20,39 @@ class CommentController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+  
+
+
+
+
+
+
+
+
+    //Route::get('/gradebooks/{gradebook}/comments/create', 'CommentController@store');
+    public function store(Request $request, $gradebookId)
     {
-        //
+        $validatedData = $request->validate([
+            'content' => 'required|max:1000',
+        ]);
+
+        $comment = new Comment();
+        $comment->content = $request->content;
+        $user = JWTAuth::parseToken()->authenticate();
+        $userId = $user->id;
+        $comment->user_id = $userId;
+        $comment->gradebook_id - $gradebookId;
+        $comment->save();
+        return $comment;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
+
+
+
+
+
     public function show(Comment $comment)
     {
         //

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Student;
+use App\Gradebook;
 use Illuminate\Http\Request;
+use Validator;
 
 class StudentController extends Controller
 {
@@ -17,25 +19,30 @@ class StudentController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+
+
+
+
+    //Route::get('/gradebooks/{gradebook}/students/create', 'StudentController@store');
+    public function store(Request $request, $gradebookId)
     {
-        //
+        $validatedData = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'url_slika' => 'required',
+        ]);
+
+        $student = new Student();
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->url_slika = $request->url_slika;
+        $student->gradebook_id = $gradebookId;
+        $student->save();
+        return $student;
+
     }
 
     /**
