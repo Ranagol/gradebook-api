@@ -11,7 +11,7 @@ $factory->define(Professor::class, function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'url_slika' => 'http://lorempixel.com/100/100/people',
+        //'url_slika' => 'http://lorempixel.com/100/100/people',
         'user_id' => $faker->randomElement($userIds),//... so here we could take a random user id from the $userIds array, and assign it to a user_id in the professors table.
     ];
 });
