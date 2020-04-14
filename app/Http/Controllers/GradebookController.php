@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Validator;
 use JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
 class GradebookController extends Controller
 {
@@ -21,10 +22,7 @@ class GradebookController extends Controller
 
     public function availableGradebooks(){
         //https://laravel.com/docs/7.x/eloquent-relationships#querying-relationship-absence
-        //$availableGradebooks = Gradebook::doesntHave('professor')->get();//desnt working
-        //return Shop::where('manager_id', NULL)->get();
-        $availableGradebooks = Gradebook::whereNull('professor_id');
-        //dump($availableGradebooks);
+        $availableGradebooks = Gradebook::doesntHave('professor')->get();//desnt working
         return $availableGradebooks;
     }
 
@@ -51,11 +49,15 @@ class GradebookController extends Controller
         return $gradebook;
     }
 
-    public function my_gradebook(){
-        $user = JWTAuth::parseToken()->authenticate();
-        $userId = $user->id;
-        $gradebook = Gradebook::with('comments.user', 'students', 'professor')->find($userId);
-        return $gradebook;
+    public function myGradebook(){
+        //return "losi";//ez mukodik
+        $professor = Auth::user()
+            ->professor()
+            ->with('gradebook.professor')
+            ->first();//Losi way
+        $gradebook = $professor->gradebook;
+        // $gradebook = Gradebook::with('comments.user', 'students', 'professor')->where('user_id', $userId)->first();
+        return $gradebook;//TODO LOSI - ITT VAN A HIBA, EZT KELL MEGNEZNI
 
     }
 

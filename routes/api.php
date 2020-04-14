@@ -23,8 +23,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::resource('/comments', 'CommentController');
     Route::post('/gradebooks/{gradebook}/students/create', 'StudentController@store');
     Route::post('/gradebooks/{gradebook}/comments/create', 'CommentController@store');
-    Route::get('/gradebooks/available', 'GradebookController@availableGradebooks');
+    Route::get('/available-gradebooks', 'GradebookController@availableGradebooks');
     Route::get('/available-professors', 'ProfessorController@availableProfessors');
-    Route::get('/my-gradebook', 'GradebookController@mygradebook');
+    Route::get('/my-gradebook', 'GradebookController@myGradebook');
 });
 

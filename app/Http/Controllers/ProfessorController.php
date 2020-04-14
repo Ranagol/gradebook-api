@@ -20,10 +20,11 @@ class ProfessorController extends Controller
         return Professor::with('gradebook', 'first_picture' )->get();
     }
 
+    
+
     public function availableProfessors(){
-        $availableProfessors = Professor::doesntHave('gradebook')->get();//doesnt working
-       
-        return $availableProfessors;//TODO LOSI: ez nem returnol semmit se... 
+        $availableProfessors = Professor::doesntHave('gradebook')->get();
+        return $availableProfessors;
     }
 
    
@@ -39,13 +40,14 @@ class ProfessorController extends Controller
         $professor = new Professor();
         $professor->first_name = $request->first_name;
         $professor->last_name = $request->last_name;
-        //above this is the original code, below is the part where I try to assign this newly created professor to an already existing gradebook
+        $professor->save();
+
         if($request->gradebook_id !== null && $request->gradebook_id !==''){
             $gradebook = Gradebook::find($request->gradebook_id);
-            $gradebook->professor_id = $professor->id;
-            $gradebook->save();//TODO LOSI - EZT MUSZAJ LETESZTELNI LOSIVAL, MIUTAN KIJAVITOTTA A SELECT BOX/FETCH GRADEBOOK PROBLEMAT
+            $gradebook->professor()->associate($professor);
+            $gradebook->save();
         }
-        $professor->save();
+
         //this is the picture handling part below
         foreach ($request->picture_urls as $value) {
             $pictures[] = new Picture(['picture_url' => $value['url']]);
@@ -64,16 +66,13 @@ class ProfessorController extends Controller
     
     public function update(Request $request, $id)
     {
-        //there is no validation here, because so far there is no update at all.
-        //TODO
-        /*IN THE TASK THERE IS REQUEST FOR THIS FUNCTION
+        
         $professor = Professor::find($id);
         $professor->first_name = $request->first_name;
         $professor->last_name = $request->last_name;
-        //since so far professor can belong only to one user, and user can have only one professor, I don't want anyubody to fuck up the sytem by editing the professors user_id. 
         $professor->save();
         return $professor;
-        */
+
     }
 
     /**

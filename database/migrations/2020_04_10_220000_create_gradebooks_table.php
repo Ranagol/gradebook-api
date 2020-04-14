@@ -16,7 +16,7 @@ class CreateGradebooksTable extends Migration
         Schema::create('gradebooks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('professor_id')->nullable;
+            $table->unsignedBigInteger('professor_id')->nullable();
             $table->foreign('professor_id')->references('id')->on('professors')->onDelete('cascade');
             $table->timestamps();
         });

@@ -43,6 +43,9 @@ class CommentController extends Controller
         $comment->user_id = $userId;
         $comment->gradebook_id = $gradebookId;
         $comment->save();
+
+        $comment = Comment::where('id', '=', $comment->id)->with('user')->first();
+
         return $comment;
     }
 
