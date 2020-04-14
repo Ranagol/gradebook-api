@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Gradebook;
+use App\Comment;
+use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Validator;
@@ -13,7 +15,17 @@ class GradebookController extends Controller
     
     public function index()
     {
-        return Gradebook::all();
+        //return Gradebook::all();//original, working
+        return Gradebook::with('professor', 'students')->get();
+    }
+
+    public function availableGradebooks(){
+        //https://laravel.com/docs/7.x/eloquent-relationships#querying-relationship-absence
+        //$availableGradebooks = Gradebook::doesntHave('professor')->get();//desnt working
+        //return Shop::where('manager_id', NULL)->get();
+        $availableGradebooks = Gradebook::whereNull('professor_id');
+        //dump($availableGradebooks);
+        return $availableGradebooks;
     }
 
    
@@ -25,10 +37,9 @@ class GradebookController extends Controller
 
         $gradebook = new Gradebook();
         $gradebook->name = $request->name;
-        $user = JWTAuth::parseToken()->authenticate();
-        $professor = $user->professor();//TODO: WE need the professor id for the gradebook creation. We can get the user id from jwt, and through relationship we can get from the user the belonging professor object. cHECK THIS
-        $professorId = $professor->id;
-        $gradebook->professor_id = $professorId;
+        if ($request->professor_id !== null) {
+            $gradebook->professor_id = $request->professor_id;
+        }
         $gradebook->save();
         return $gradebook;
     }
@@ -36,7 +47,16 @@ class GradebookController extends Controller
     
     public function show($id)
     {
-        return Gradebook::find($id);
+        $gradebook = Gradebook::with('comments.user', 'students', 'professor')->find($id);
+        return $gradebook;
+    }
+
+    public function my_gradebook(){
+        $user = JWTAuth::parseToken()->authenticate();
+        $userId = $user->id;
+        $gradebook = Gradebook::with('comments.user', 'students', 'professor')->find($userId);
+        return $gradebook;
+
     }
 
     
@@ -48,8 +68,6 @@ class GradebookController extends Controller
 
         $gradebook = Gradebook::find($id);
         $gradebook->name = $request->name;
-        //TODO POSSIBLE ISSUE: since so far gradebook belongs only to one professor, and one professor can have only one gradebook, I don't want the user to mess with the gradebook's professor_id
-        //TODO: IF they change the relationships regarding the user/professor/gradebook then I will have to change my controllers and validations everywhere... fuck.
         $gradebook->save();
         return $gradebook;
 

@@ -19,4 +19,8 @@ class Professor extends Model
     public function pictures(){
         return $this->hasMany(Picture::class);
     }
+
+    public function first_picture () {
+        return $this->hasOne(Picture::class);
+    }
 }

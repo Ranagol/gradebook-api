@@ -41,7 +41,7 @@ class CommentController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
         $userId = $user->id;
         $comment->user_id = $userId;
-        $comment->gradebook_id - $gradebookId;
+        $comment->gradebook_id = $gradebookId;
         $comment->save();
         return $comment;
     }

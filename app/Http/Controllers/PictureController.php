@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Picture;
+use App\User;
+use App\Professor;
+use App\Gradebook;
 use Illuminate\Http\Request;
+use Validator;
+use JWTAuth;
 
 class PictureController extends Controller
 {
@@ -35,7 +40,19 @@ class PictureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            
+        ]);
+            
+        $picture = new Picture;
+        $picture->picture_url = $request->picture_url;
+        $user = JWTAuth::parseToken()->authenticate();
+        $professor = $user->professor;
+        $professorId = $professor->id;
+        $picture->professor_id = $professorId;
+        $picture->save();
+        return $picture;
+
     }
 
     /**

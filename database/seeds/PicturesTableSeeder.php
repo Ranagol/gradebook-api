@@ -13,7 +13,7 @@ class PicturesTableSeeder extends Seeder
     public function run()
     {
         App\Professor::all()->each(function(App\Professor $professor) {
-            $professor->pictures()->saveMany(factory(App\Picture::class, 2)->make());//TODO: check App\Post::class
+            $professor->pictures()->saveMany(factory(Picture::class, 2)->make());
         });
     }
 }
