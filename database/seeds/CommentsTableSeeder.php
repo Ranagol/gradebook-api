@@ -13,7 +13,7 @@ class CommentsTableSeeder extends Seeder
     public function run()
     {
         App\Gradebook::all()->each(function(App\Gradebook $gradebook) {	
-            $gradebook->comments()->saveMany(factory(App\Comment::class, 5)->make());
+            $gradebook->comments()->saveMany(factory(App\Comment::class, 3)->make());
         });
     }
 }

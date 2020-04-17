@@ -13,6 +13,6 @@ class ProfessorsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Professor::class, 35)->create();
+        factory(App\Professor::class, 15)->create();//these are only dummy professors. The "real professors" are created either in the UsersTableSeeder, or later, automatically, during user registration. Behind real professor there is a registered user. The dummy professor is only in the db, for testing purpose.
     }
 }

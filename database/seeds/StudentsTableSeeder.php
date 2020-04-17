@@ -13,7 +13,7 @@ class StudentsTableSeeder extends Seeder
     public function run()
     {
         App\Gradebook::all()->each(function(App\Gradebook $gradebook) {	
-            $gradebook->students()->saveMany(factory(App\Student::class, 10)->make());
+            $gradebook->students()->saveMany(factory(App\Student::class, 5)->make());
         });
     }
 }
