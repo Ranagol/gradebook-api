@@ -43,9 +43,7 @@ class CommentController extends Controller
         $comment->user_id = $userId;
         $comment->gradebook_id = $gradebookId;
         $comment->save();
-
         $comment = Comment::where('id', '=', $comment->id)->with('user')->first();
-
         return $comment;
     }
 
@@ -87,11 +85,19 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comment
+     * @param  integer  $commentId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(int $commentId)
     {
-        //
+        $comment = Auth()->user()->comments()->where('id', '=', $commentId)->first();
+
+        if ($comment === null) {
+            throw new \RuntimeException('This comment is not yours to delete.');
+        }
+
+        $comment->delete();
+
+
     }
 }

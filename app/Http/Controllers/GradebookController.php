@@ -47,17 +47,21 @@ class GradebookController extends Controller
     {
         $gradebook = Gradebook::with('comments.user', 'students', 'professor')->find($id);
         return $gradebook;
+        
     }
 
     public function myGradebook(){
-        //return "losi";//ez mukodik
         $professor = Auth::user()
             ->professor()
-            ->with('gradebook.professor')
+            ->with(
+                'gradebook.professor',
+                'gradebook.comments.user',
+                'gradebook.students'
+                )
             ->first();//Losi way
         $gradebook = $professor->gradebook;
         // $gradebook = Gradebook::with('comments.user', 'students', 'professor')->where('user_id', $userId)->first();
-        return $gradebook;//TODO LOSI - ITT VAN A HIBA, EZT KELL MEGNEZNI
+        return $gradebook;
 
     }
 

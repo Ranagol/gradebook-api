@@ -11,7 +11,7 @@ $factory->define(Student::class, function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'url_slika' => 'http://lorempixel.com/100/100/people',
+        'url_slika' => 'https://www.fillmurray.com/420/320',
         'gradebook_id' => $faker->randomElement($gradebookIds),
     ];
 });

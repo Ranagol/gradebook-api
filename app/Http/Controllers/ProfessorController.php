@@ -33,7 +33,7 @@ class ProfessorController extends Controller
         $validatedData = $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'picture_urls.*.url' => 'required|string'//this will check all picture_url's, and every object has to have a key-value pair url string.
+            'picture_urls.*.url' => 'required|url'//this will check all picture_url's, and every object has to have a key-value pair url string.
             
         ]);
 

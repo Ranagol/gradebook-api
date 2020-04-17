@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Student;
 use App\Gradebook;
+use App\Professor;
+use App\User;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -39,7 +42,10 @@ class StudentController extends Controller
         $student->first_name = $request->first_name;
         $student->last_name = $request->last_name;
         $student->url_slika = $request->url_slika;
-        $student->gradebook_id = $gradebookId;
+        $user = Auth::user();
+        $professor = $user->professor;
+        $gradebook = $professor->gradebook;
+        $student->gradebook_id = $gradebook->id;
         $student->save();
         return $student;
 

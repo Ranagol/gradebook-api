@@ -10,6 +10,6 @@ $factory->define(Picture::class, function (Faker $faker) {
     $professorIds = Professor::all()->pluck('id')->toArray();
     return [
         'professor_id' => $faker->randomElement($professorIds),
-        'picture_url' => 'http://lorempixel.com/100/100/people',
+        'picture_url' => 'https://www.fillmurray.com/420/320',
     ];
 });
