@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $user = factory(App\User::class, 10)->create()
-            ->each(function(App\User $user) {//TODO LOSI EZ ITT NEM JO, NEM LEHET SEEDELNI
+            ->each(function(App\User $user) {
                 $professor = new App\Professor();
                 $professor->first_name = $user->first_name;
                 $professor->last_name = $user->last_name;
