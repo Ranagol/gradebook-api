@@ -7,10 +7,10 @@ use App\User;
 use Faker\Generator as Faker;
 
 $factory->define(Professor::class, function (Faker $faker) {
-    $userIds = User::all()->pluck('id')->toArray();//we want to use the already existing user id's, to create user_id in the professors table. So, we take all the users, we take all their id's, and put them into the $userIds array...
+    $userIds = User::all()->pluck('id')->toArray();
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'user_id' => $faker->randomElement($userIds),//... so here we could take a random user id from the $userIds array, and assign it to a user_id in the professors table.
+        'user_id' => $faker->randomElement($userIds),
     ];
 });

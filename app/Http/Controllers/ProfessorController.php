@@ -17,7 +17,7 @@ class ProfessorController extends Controller
     
     public function index()
     {
-        if (request()->input('searchTerm')) {//TODO LOSI - CSAK LEELLENORIZNI, EGYEBKENT MUKODIK
+        if (request()->input('searchTerm')) {
             $searchTerm = request()->input('searchTerm');
             return Professor::where('first_name', 'like', '%' . $searchTerm . '%')
             ->orWhere('last_name', 'like', '%' . $searchTerm . '%')

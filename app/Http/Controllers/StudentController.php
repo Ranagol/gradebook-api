@@ -23,13 +23,6 @@ class StudentController extends Controller
     }
 
     
-
-
-
-
-
-
-    //Route::get('/gradebooks/{gradebook}/students/create', 'StudentController@store');
     public function store(Request $request, $gradebookId)
     {
         $validatedData = $request->validate([

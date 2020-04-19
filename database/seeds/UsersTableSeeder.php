@@ -16,7 +16,6 @@ class UsersTableSeeder extends Seeder
                 $professor = new App\Professor();
                 $professor->first_name = $user->first_name;
                 $professor->last_name = $user->last_name;
-
                 $user->professor()->save($professor);
             });
     }

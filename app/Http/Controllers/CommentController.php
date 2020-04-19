@@ -20,14 +20,6 @@ class CommentController extends Controller
         //
     }
 
-  
-
-
-
-
-
-
-
 
     //Route::get('/gradebooks/{gradebook}/comments/create', 'CommentController@store');
     public function store(Request $request, $gradebookId)
@@ -48,11 +40,6 @@ class CommentController extends Controller
     }
 
     
-
-
-
-
-
 
     public function show(Comment $comment)
     {
