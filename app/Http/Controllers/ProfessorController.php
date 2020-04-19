@@ -20,10 +20,10 @@ class ProfessorController extends Controller
         if (request()->input('searchTerm')) {
             $searchTerm = request()->input('searchTerm');
             return Professor::where('first_name', 'like', '%' . $searchTerm . '%')
-            ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
-            ->with('gradebook', 'first_picture')->get();
+                ->orWhere('last_name', 'like', '%' . $searchTerm . '%')
+                ->with('gradebook', 'first_picture')->orderBy('created_at', 'desc')->get();
         }
-        return Professor::with('gradebook', 'first_picture' )->get();
+        return Professor::with('gradebook', 'first_picture' )->orderBy('created_at', 'desc')->get();
     }
 
     
@@ -49,7 +49,7 @@ class ProfessorController extends Controller
         $professor->save();
 
         if($request->gradebook_id !== null && $request->gradebook_id !==''){
-            $gradebook = Gradebook::find($request->gradebook_id);
+            $gradebook = Gradebook::findOrFail($request->gradebook_id);
             $gradebook->professor()->associate($professor);
             $gradebook->save();
         }
@@ -65,7 +65,7 @@ class ProfessorController extends Controller
     
     public function show($id)
     {
-        $professor = Professor::with('gradebook', 'gradebook.students')->find($id);
+        $professor = Professor::with('gradebook', 'gradebook.students')->findOrFail($id);
         return $professor;
     }
 
@@ -73,7 +73,7 @@ class ProfessorController extends Controller
     public function update(Request $request, $id)
     {
         
-        $professor = Professor::find($id);
+        $professor = Professor::findOrFail($id);
         $professor->first_name = $request->first_name;
         $professor->last_name = $request->last_name;
         $professor->save();

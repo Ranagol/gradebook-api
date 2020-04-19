@@ -20,11 +20,9 @@ class GradebookController extends Controller
         $skip = request()->input('skip', 0);
         $take = request()->input('take', Gradebook::count());
 
-        if ($name) {
-            return Gradebook::search($name, $skip, $take);
-        } else {
-            return Gradebook::skip($skip)->take($take)->get();
-        }
+        //https://laravel.com/docs/7.x/eloquent#local-scopes
+        return Gradebook::search($skip, $take, $name)->get();
+       
     }
 
     public function availableGradebooks(){
@@ -52,7 +50,7 @@ class GradebookController extends Controller
     
     public function show($id)
     {
-        $gradebook = Gradebook::with('comments.user', 'students', 'professor')->find($id);
+        $gradebook = Gradebook::with('comments.user', 'students', 'professor')->findOrFail($id);
         return $gradebook;
         
     }
@@ -78,7 +76,7 @@ class GradebookController extends Controller
             'name' => 'required|min:2|max:255',
         ]);
 
-        $gradebook = Gradebook::find($id);
+        $gradebook = Gradebook::findOrFail($id);
         $gradebook->name = $request->name;
         $gradebook->save();
         return $gradebook;

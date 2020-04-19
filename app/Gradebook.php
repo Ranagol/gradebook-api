@@ -24,8 +24,18 @@ class Gradebook extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public static function search($name, $skip, $take){
-        return self::where('name', 'LIKE', '%' . $name . '%')->skip($skip)->take($take)->get();
+    //https://laravel.com/docs/7.x/eloquent#local-scopes
+    public function scopeSearch($query, $skip, $take, $name = null){
+        $query = $query->orderBy('created_at', 'desc');
+
+        if ($name !== null) {
+            $query = $query->where('name', 'LIKE', '%' . $name . '%');
+        }
+
+        return $query
+            ->skip($skip)
+            ->take($take)
+            ->with('professor');
     }
 
 
