@@ -35,7 +35,7 @@ class GradebookController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|min:2|max:255',
+            'name' => 'required|string|between:2,255',
         ]);
 
         $gradebook = new Gradebook();

@@ -28,7 +28,7 @@ class StudentController extends Controller
         $validatedData = $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'url_slika' => 'required',
+            'url_slika' => 'required|max:255',
         ]);
 
         $student = new Student();
